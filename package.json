@@ -1,0 +1,17 @@
+{
+  "name": "save-yourself-js",
+  "version": "0.0.1",
+  "author": "BJ Anderson",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "node -r @std/esm scripts/build.js",
+    "start": "npm run watch",
+    "watch": "watch 'npm run build' src scripts --interval=0.1"
+  },
+  "@std/esm": "all",
+  "devDependencies": {
+    "@std/esm": "0.5.1",
+    "watch": "1.0.2"
+  }
+}
