@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-us">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +15,28 @@
 <div id="app"></div>
 <!--</APP>-->
 
+<template id="tpl_todo_list">
+  <ul class="todo-list"></ul>
+</template>
+
+<template id="tpl_todo_row">
+  <li class="todo-row">
+    <div class="ilb todo-complete">
+      <input type="checkbox">
+    </div>
+    <div class="ilb todo-text"></div>
+  </li>
+</template>
+
+<template id="tpl_save_btn">
+  <button id="save_btn">Save</button>
+</template>
+
+<script src="app/utils.js"></script>
+<script src="app/todo.js"></script>
+<script src="app/data-store.js"></script>
 <script src="app/saver.js"></script>
-<script src="app/builder.js"></script>
+<script src="app/dom-builder.js"></script>
 <script src="app/app.js"></script>
 
 </body>

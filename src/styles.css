@@ -1,4 +1,13 @@
 
 body {
-  background-color: #cff;
+  background-color: #ffd;
+}
+
+.ilb {
+  display: inline-block;
+}
+
+#todo_list {
+  list-style-type: none;
+  padding: 0;
 }

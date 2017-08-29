@@ -1,4 +1,12 @@
 
-(function init() {
-  Builder.addSaveButton();
-})();
+function init() {
+
+  DataStore.init();
+  DataStore.show();
+
+  DOMBuilder.addTodoList();
+  DOMBuilder.addSaveButton();
+  DOMBuilder.addShowButton()
+}
+
+init();
