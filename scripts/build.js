@@ -2,6 +2,7 @@
 import cp from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import sass from 'node-sass';
 
 const execSync = cp.execSync;
 
@@ -9,13 +10,14 @@ const PATHS = {
   src: path.resolve('src'),
   dist: path.resolve('dist'),
   indexHtml: path.resolve('src', 'index.html'),
-  stylesCss: path.resolve('src', 'styles.css')
+  stylesCss: path.resolve('src', 'styles.css'),
+  stylesScss: path.resolve('src', 'styles.scss'),
 };
 
 function build() {
   let html = readFile(PATHS.indexHtml);
-  html = mergeCss(html);
-  html = mergeJs(html);
+  html = insertCss(html);
+  html = insertJs(html);
   writeHtml(html);
 }
 
@@ -25,13 +27,16 @@ function readFile(fileName) {
   } catch (err) { console.error(err); }
 }
 
-function mergeCss(html) {
-  const css = readFile(PATHS.stylesCss);
-  html = html.replace('<link rel="stylesheet" href="styles.css">', `<style>${css}</style>`);
+function insertCss(html, compressed = true) {
+  const result = sass.renderSync({
+    file: PATHS.stylesScss,
+    outputStyle: compressed ? 'compressed' : 'expanded'
+  });
+  html = html.replace('<link rel="stylesheet" href="styles.css">', `<style>${result.css}</style>`);
   return html;
 }
 
-function mergeJs(html) {
+function insertJs(html) {
   const files = getJsFiles(html);
   for (let file of files) {
     const js = readFile(path.resolve('src', file));

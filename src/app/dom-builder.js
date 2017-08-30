@@ -2,6 +2,11 @@
 class DOMBuilder {
   static get app() { return document.querySelector('#app'); }
 
+  static init() {
+    DOMBuilder.addSaveButton();
+    DOMBuilder.addShowButton();
+  }
+
   static addShowButton() {
     let btn = document.createElement('button');
     btn.id = 'show_btn';
@@ -18,38 +23,36 @@ class DOMBuilder {
     document.querySelector('#save_btn').addEventListener('click', Saver.save);
   }
 
-  static addTodoList() {
-    let ul = document.createElement('ul');
-    ul.id = 'todo_list';
+  static addTodoList(el, todos) {
+    let tpl = document.querySelector('#tpl_todo_list');
+    let node = document.importNode(tpl.content, true);
+    el.appendChild(node);
 
-    for (let todo of DataStore.appData.todos) {
-      ul.appendChild(DOMBuilder.todoRow(todo));
+    let ul = el.querySelector('.todo-list');
+    for (let todo of todos) {
+      DOMBuilder.addTodoRow(ul, todo);
     }
-
-    DOMBuilder.app.appendChild(ul);
+    return ul;
   }
 
-  static todoRow(todo) {
-    let complete = document.createElement('input');
-    complete.type = 'checkbox';
-    complete.checked = todo.complete;
-    complete.addEventListener('change', function(event) {
-      console.log('event: ', event);
-      todo.complete = !todo.complete;
+  static addTodoRow(el, todo) {
+    let tpl = document.querySelector('#tpl_todo_row');
+    let checkBox = tpl.content.querySelector('.todo-complete input');
+    checkBox.checked = todo.complete;
+    tpl.content.querySelector('.todo-text').textContent = todo.text;
+
+    tpl.content.querySelector('.todo-row').id = `todo_${todo.id}`;
+    let node = document.importNode(tpl.content, true);
+    el.appendChild(node);
+
+    let row = el.querySelector(`#todo_${todo.id}`);
+    let completedCheckbox = row.querySelector(`.todo-complete input`);
+    completedCheckbox.addEventListener('change', function(event) {
+      todo.complete = event.target.checked;
     });
 
-    let div = document.createElement('div');
-    div.className = 'ilb';
-    div.appendChild(complete);
-
-    let text = document.createElement('div');
-    text.className = 'ilb';
-    text.innerText = todo.text;
-
-    let li = document.createElement('li');
-    li.appendChild(div);
-    li.appendChild(text);
-
-    return li;
+    if (todo.children != null && todo.children.length > 0) {
+      let nextUl = DOMBuilder.addTodoList(row, todo.children);
+    }
   }
 }
