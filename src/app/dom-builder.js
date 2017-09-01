@@ -36,7 +36,7 @@ class DOMBuilder {
   }
 
   static addTodoRow(el, todo) {
-    let tpl = document.querySelector('#tpl_todo_row');
+    /* let tpl = document.querySelector('#tpl_todo_row');
     let checkBox = tpl.content.querySelector('.todo-complete input');
     checkBox.checked = todo.complete;
     tpl.content.querySelector('.todo-text').textContent = todo.text;
@@ -46,10 +46,8 @@ class DOMBuilder {
     el.appendChild(node);
 
     let row = el.querySelector(`#todo_${todo.id}`);
-    let completedCheckbox = row.querySelector(`.todo-complete input`);
-    completedCheckbox.addEventListener('change', function(event) {
-      todo.complete = event.target.checked;
-    });
+    todo.setDataBindings(row); */
+    let row = (new TodoRow(el, todo)).el;
 
     if (todo.children != null && todo.children.length > 0) {
       let nextUl = DOMBuilder.addTodoList(row, todo.children);

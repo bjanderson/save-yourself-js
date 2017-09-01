@@ -19,6 +19,17 @@ body {
   padding-left: 20px;
 }
 
-.todo-action {
-  cursor: pointer;
+.todo-row {
+  svg {
+    transform: rotate(0deg);
+    transition: transform 0.5s ease;
+  }
+
+  .expanded svg {
+    transform: rotate(-180deg);
+  }
+
+  .todo-action {
+    cursor: pointer;
+  }
 }

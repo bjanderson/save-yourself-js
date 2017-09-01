@@ -41,18 +41,17 @@
 <template id="tpl_todo_row">
   <li class="todo-row">
     <div class="ilb">
-        <span class="todo-action expand" title="Expand"><svg class="icon icon-chevron-down"><use xlink:href="#icon-chevron-down"></use></svg></span>
-        <span class="todo-action expand" title="Collapse"><svg class="icon icon-chevron-up"><use xlink:href="#icon-chevron-up"></use></svg></span>
+      <span class="todo-action" data-bind="expand" title="Expand/Collapse"><svg class="icon icon-chevron-down"><use xlink:href="#icon-chevron-down"></use></svg></span>
     </div>
     <div class="ilb todo-complete">
-      <input type="checkbox">
+      <input type="checkbox" data-bind="complete">
     </div>
     <div class="ilb todo-actions">
-      <span class="todo-action" title="Add a Sub-Todo"><svg class="icon icon-plus"><use xlink:href="#icon-plus"></use></svg></span>
-      <span class="todo-action" title="Edit this Todo"><svg class="icon icon-pencil"><use xlink:href="#icon-pencil"></use></svg></span>
-      <span class="todo-action" title="Delete this Todo"><svg class="icon icon-bin"><use xlink:href="#icon-bin"></use></svg></span>
+      <span class="todo-action" data-bind="add-child" title="Add a Sub-Todo"><svg class="icon icon-plus"><use xlink:href="#icon-plus"></use></svg></span>
+      <span class="todo-action" data-bind="edit" title="Edit this Todo"><svg class="icon icon-pencil"><use xlink:href="#icon-pencil"></use></svg></span>
+      <span class="todo-action" data-bind="delete" title="Delete this Todo"><svg class="icon icon-bin"><use xlink:href="#icon-bin"></use></svg></span>
     </div>
-    <div class="ilb todo-text"></div>
+    <div class="ilb todo-text" data-bind="text"></div>
   </li>
 </template>
 
@@ -62,6 +61,7 @@
 
 <script src="app/utils.js"></script>
 <script src="app/todo.js"></script>
+<script src="app/todo-row.js"></script>
 <script src="app/data-store.js"></script>
 <script src="app/saver.js"></script>
 <script src="app/dom-builder.js"></script>
