@@ -1,6 +1,7 @@
 class TodoRow {
   constructor(parent, todo) {
     this.todo = todo;
+    this.children = [];
 
     let tpl = document.querySelector('#tpl_todo_row');
     if (tpl != null) {
@@ -9,6 +10,15 @@ class TodoRow {
       if (node != null) {
         parent.appendChild(node);
         this.el = parent.querySelector(`#todo_${todo.id}`);
+        let innerTpl = document.querySelector('#tpl_todo_list');
+        let innerNode = document.importNode(innerTpl.content, true);
+        this.el.appendChild(innerNode);
+        this.innerUl = this.el.querySelector('ul');
+
+        let children = DataStore.appData.todos.filter(todo => todo.parentId === todo.id);
+        for (let child of children) {
+          this.children.push(new TodoRow(this.innerUl, child));
+        }
       }
     }
 
@@ -19,6 +29,15 @@ class TodoRow {
       this.setAddChild();
       this.setEdit();
       this.setDelete();
+      this.showExpandBtn();
+    }
+  }
+
+  showExpandBtn() {
+    let btn = this.el.querySelector('.expand-btn');
+    btn.className = btn.className.replace('invisible', '').trim();
+    if (this.children.length === 0) {
+      btn.className += ' invisible';
     }
   }
 
@@ -41,14 +60,21 @@ class TodoRow {
 
   setExpand() {
     const el = this.el.querySelector('[data-bind="expand"]');
-    el.addEventListener('click', (event) => {
-      this.todo.showChildren = !this.todo.showChildren;
-      if (this.todo.showChildren) {
-        el.className += ' expanded';
-      } else {
-        el.className = el.className.replace('expanded', '').trim();
-      }
-    });
+    el.addEventListener('click', () => this.toggleChildren());
+  }
+
+  toggleChildren(show) {
+    this.todo.showChildren = show == null ? !this.todo.showChildren : show;
+    if (this.todo.showChildren) {
+      this.el.className += ' expanded';
+    } else {
+      this.el.className = this.el.className.replace('expanded', '').trim();
+    }
+    for (let child of this.children) {
+      child.toggleChildren(this.todo.showChildren);
+    }
+    /* let maxHeight = this.todo.showChildren === true ? this.el.clientHeight * this.todo.children.length : 0;
+    this.innerUl.style.maxHeight = `${maxHeight}px`; */
   }
 
   setAddChild() {

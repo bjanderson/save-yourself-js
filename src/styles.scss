@@ -10,6 +10,10 @@ body {
   display: inline-block;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .todo-list {
   list-style-type: none;
   padding: 0;
@@ -20,13 +24,24 @@ body {
 }
 
 .todo-row {
-  svg {
-    transform: rotate(0deg);
-    transition: transform 0.5s ease;
+  margin: 20px 0;
+
+  .expand-icon {
+    font-size: 10px;
   }
 
-  .expanded svg {
-    transform: rotate(-180deg);
+  &:not(.expanded) {
+    ul li {
+      display: none;
+      overflow: hidden;
+    }
+  }
+
+  &.expanded {
+    ul li {
+      display: block;
+      overflow: hidden;
+    }
   }
 
   .todo-action {

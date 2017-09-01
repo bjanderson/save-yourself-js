@@ -29,28 +29,10 @@ class DOMBuilder {
     el.appendChild(node);
 
     let ul = el.querySelector('.todo-list');
+    let todoRows = [];
     for (let todo of todos) {
-      DOMBuilder.addTodoRow(ul, todo);
+      todoRows.push(new TodoRow(ul, todo));
     }
     return ul;
-  }
-
-  static addTodoRow(el, todo) {
-    /* let tpl = document.querySelector('#tpl_todo_row');
-    let checkBox = tpl.content.querySelector('.todo-complete input');
-    checkBox.checked = todo.complete;
-    tpl.content.querySelector('.todo-text').textContent = todo.text;
-
-    tpl.content.querySelector('.todo-row').id = `todo_${todo.id}`;
-    let node = document.importNode(tpl.content, true);
-    el.appendChild(node);
-
-    let row = el.querySelector(`#todo_${todo.id}`);
-    todo.setDataBindings(row); */
-    let row = (new TodoRow(el, todo)).el;
-
-    if (todo.children != null && todo.children.length > 0) {
-      let nextUl = DOMBuilder.addTodoList(row, todo.children);
-    }
   }
 }

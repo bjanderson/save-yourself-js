@@ -32,24 +32,13 @@ class DataStore {
     DataStore.appData = {
       todos: [
         new Todo({text: 'test 1'}),
-        new Todo({
-          text: 'test 2',
-          children: [
-            new Todo({
-              text: 'test a',
-              children: [
-                new Todo({
-                  text: 'test i'
-                }),
-                new Todo({
-                  text: 'test ii'
-                })
-              ]
-            }),
-            new Todo({
-              text: 'test b'
-            })
-          ]}),
+        new Todo({text: 'test 2', id: '2'}),
+        new Todo({text: 'test a', id: '2-1', parentId: '2'}),
+        new Todo({text: 'test i', id: '2-1-1', parentId: '2-1'}),
+        new Todo({text: 'test ii', id: '2-1-2', parentId: '2-1'}),
+        new Todo({text: 'test b', id: '2-2', parentId: '2'}),
+        new Todo({text: 'test iii', id: '2-2-1', parentId: '2-2'}),
+        new Todo({text: 'test iv', id: '2-2-2', parentId: '2-2'}),
         new Todo({text: 'test 3', complete: true})
       ]
     }
