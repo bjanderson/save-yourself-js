@@ -1,0 +1,59 @@
+
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todo-list .todo-list {
+  padding-left: 20px;
+}
+
+.todo-row {
+  margin: 20px 0;
+
+  .expand-icon {
+    font-size: 10px;
+  }
+
+  &:not(.expanded) {
+    &>ul {
+      @extend .hide;
+      overflow: hidden;
+    }
+  }
+
+  &.expanded {
+    &>ul {
+      @extend .show;
+      overflow: hidden;
+    }
+  }
+
+  .todo-action {
+    cursor: pointer;
+  }
+
+  .display {
+    @extend .pointer;
+  }
+
+  &:not(.editing) {
+    .display {
+      @extend .show;
+    }
+
+    .input {
+      @extend .hide;
+    }
+  }
+
+  &.editing {
+    .display {
+      @extend .hide;
+    }
+
+    .input {
+      @extend .show;
+    }
+  }
+}

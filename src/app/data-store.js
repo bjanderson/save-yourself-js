@@ -3,28 +3,37 @@ class DataStore {
 
   static get ENCODED_DATA_STORE() {
     //<ENCODED_DATA_STORE>
-    let ENCODED_DATA_STORE = '%7B%7D';
+    let ENCODED_DATA_STORE = '%7B%22appData%22:%7B%22todos%22:%5B%5D%7D%7D'
     //</ENCODED_DATA_STORE>
-    return ENCODED_DATA_STORE;
+    return ENCODED_DATA_STORE
   }
 
   static init() {
-    DataStore.appData = JSON.parse(decodeURI(DataStore.ENCODED_DATA_STORE));
+    DataStore.appData = JSON.parse(decodeURI(DataStore.ENCODED_DATA_STORE))
     //<REMOVE_FOR_PROD>
-    DataStore.addFakeData();
+    DataStore.addFakeData()
     //</REMOVE_FOR_PROD>
   }
 
   static getEncodedData() {
-    console.log('encoding: ', DataStore.appData);
-    return encodeURI(JSON.stringify(DataStore.appData));
+    // console.log('encoding: ', DataStore.appData)
+    return encodeURI(JSON.stringify(DataStore.appData))
+  }
+
+  static addTodo(todo) {
+    DataStore.appData.todos.push(todo)
+  }
+
+  static removeTodo(id) {
+    const i = DataStore.appData.todos.findIndex(todo => todo.id === id)
+    DataStore.appData.todos.splice(i, 1)
   }
 
   static show() {
-    console.log();
-    console.log('DataStore.appData: ', DataStore.appData);
-    // console.log('ENCODED_DATA_STORE: ', DataStore.getEncodedData());
-    console.log();
+    console.log()
+    console.log('DataStore.appData: ', DataStore.appData)
+    // console.log('ENCODED_DATA_STORE: ', DataStore.getEncodedData())
+    console.log()
   }
 
   //<REMOVE_FOR_PROD>

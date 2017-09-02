@@ -1,50 +1,6 @@
 
 @import 'scss/_variables.scss';
+@import 'scss/_colors.scss';
+@import 'scss/_global.scss';
 @import 'scss/_icons.scss';
-
-body {
-  background-color: $main-bg-color;
-}
-
-.ilb {
-  display: inline-block;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.todo-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.todo-list .todo-list {
-  padding-left: 20px;
-}
-
-.todo-row {
-  margin: 20px 0;
-
-  .expand-icon {
-    font-size: 10px;
-  }
-
-  &:not(.expanded) {
-    ul li {
-      display: none;
-      overflow: hidden;
-    }
-  }
-
-  &.expanded {
-    ul li {
-      display: block;
-      overflow: hidden;
-    }
-  }
-
-  .todo-action {
-    cursor: pointer;
-  }
-}
+@import 'scss/_todo.scss';

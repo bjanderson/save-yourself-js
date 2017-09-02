@@ -1,100 +1,116 @@
 class TodoRow {
   constructor(parent, todo) {
-    this.todo = todo;
-    this.children = [];
+    this.el
+    this.subList
+    this.data = todo
 
-    let tpl = document.querySelector('#tpl_todo_row');
+    let tpl = document.querySelector('#tpl_todo_row')
     if (tpl != null) {
-      tpl.content.querySelector('.todo-row').id = `todo_${todo.id}`;
-      let node = document.importNode(tpl.content, true);
+      tpl.content.querySelector('.todo-row').id = `todo_${todo.id}`
+      let node = document.importNode(tpl.content, true)
       if (node != null) {
-        parent.appendChild(node);
-        this.el = parent.querySelector(`#todo_${todo.id}`);
-        let innerTpl = document.querySelector('#tpl_todo_list');
-        let innerNode = document.importNode(innerTpl.content, true);
-        this.el.appendChild(innerNode);
-        this.innerUl = this.el.querySelector('ul');
+        parent.appendChild(node)
+        this.el = parent.querySelector(`#todo_${todo.id}`)
+        if (this.data.showChildren) {
+          this.expandSubList()
+        }
 
-        let children = DataStore.appData.todos.filter(todo => todo.parentId === todo.id);
-        for (let child of children) {
-          this.children.push(new TodoRow(this.innerUl, child));
+        let children = DataStore.appData.todos.filter(t => t.parentId === todo.id)
+        if (children.length > 0) {
+          this.subList = new TodoList(this.el, children)
         }
       }
     }
 
     if (this.el != null) {
-      this.setComplete();
-      this.setText();
-      this.setExpand();
-      this.setAddChild();
-      this.setEdit();
-      this.setDelete();
-      this.showExpandBtn();
+      this.setComplete()
+      this.setText()
+      this.setExpand()
+      this.setAddChild()
+      this.setDelete()
+      this.showExpandBtn()
     }
   }
 
   showExpandBtn() {
-    let btn = this.el.querySelector('.expand-btn');
-    btn.className = btn.className.replace('invisible', '').trim();
-    if (this.children.length === 0) {
-      btn.className += ' invisible';
+    let btn = this.el.querySelector('.expand-btn')
+    btn.className = btn.className.replace('invisible', '').trim()
+    if (this.subList == null) {
+      btn.className += ' invisible'
     }
   }
 
   setComplete() {
-    const el = this.el.querySelector('[data-bind="complete"]');
+    const el = this.el.querySelector('[data-bind="complete"]')
     if (el != null) {
-      el.checked = this.todo.complete;
+      el.checked = this.data.complete
       el.addEventListener('change', (event) => {
-        this.todo.complete = event.target.checked;
-      });
+        this.data.complete = event.target.checked
+      })
     }
   }
 
   setText() {
-    const el = this.el.querySelector('[data-bind="text"]');
-    if (el != null) {
-      el.innerText = this.todo.text;
-    }
+    const el = this.el.querySelector('[data-bind="text"]')
+    const input = el.querySelector('.input')
+    const text = input.querySelector('input')
+
+
+    const display = el.querySelector('.display')
+    display.innerText = this.data.text
+    display.addEventListener('click', () => {
+      this.el.className += ' editing'
+    })
+
+    const check = input.querySelector('.icon-check')
+    check.addEventListener('click', () => {
+      this.el.className = this.el.className.replace('editing', '').trim()
+      this.data.text = text.value
+      display.innerText = this.data.text
+    })
+
+    const close = input.querySelector('.icon-close')
+    close.addEventListener('click', () => {
+      this.el.className = this.el.className.replace('editing', '').trim()
+      text.value = null
+    })
+
   }
 
   setExpand() {
-    const el = this.el.querySelector('[data-bind="expand"]');
-    el.addEventListener('click', () => this.toggleChildren());
+    const el = this.el.querySelector('[data-bind="expand"]')
+    el.addEventListener('click', this.toggleSubList.bind(this))
   }
 
-  toggleChildren(show) {
-    this.todo.showChildren = show == null ? !this.todo.showChildren : show;
-    if (this.todo.showChildren) {
-      this.el.className += ' expanded';
+  toggleSubList() {
+    this.data.showChildren = !this.data.showChildren
+    if (this.data.showChildren) {
+      this.expandSubList()
     } else {
-      this.el.className = this.el.className.replace('expanded', '').trim();
+      this.collaspeSubList()
     }
-    for (let child of this.children) {
-      child.toggleChildren(this.todo.showChildren);
-    }
-    /* let maxHeight = this.todo.showChildren === true ? this.el.clientHeight * this.todo.children.length : 0;
-    this.innerUl.style.maxHeight = `${maxHeight}px`; */
+  }
+
+  collaspeSubList() {
+    this.el.className = this.el.className.replace('expanded', '').trim()
+  }
+
+  expandSubList() {
+    this.el.className += ' expanded'
   }
 
   setAddChild() {
-    const el = this.el.querySelector('[data-bind="add-child"]');
+    const el = this.el.querySelector('[data-bind="add-child"]')
     el.addEventListener('click', (event) => {
-      console.log('addChild');
-    });
-  }
-
-  setEdit() {
-    const el = this.el.querySelector('[data-bind="edit"]');
-    el.addEventListener('click', (event) => {
-      console.log('edit');
-    });
+      console.log('addChild')
+    })
   }
 
   setDelete() {
-    const el = this.el.querySelector('[data-bind="delete"]');
+    const el = this.el.querySelector('[data-bind="delete"]')
     el.addEventListener('click', (event) => {
-      console.log('delete');
-    });
+      DataStore.removeTodo(this.data.id)
+      let e = document.getElementById(`todo_${this.data.id}`).remove()
+    })
   }
 }
