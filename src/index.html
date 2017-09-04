@@ -43,6 +43,13 @@
   </symbol>
 </svg>
 
+<template id="tpl_todo_header">
+  <h1 class="todo-header">
+    TODO
+    <span class="todo-action c-blue" data-bind="add-todo" title="Add Todo"><svg class="icon icon-plus"><use xlink:href="#icon-plus"></use></svg></span>
+  </h1>
+</template>
+
 <template id="tpl_todo_list">
   <ul class="todo-list"></ul>
 </template>
@@ -50,21 +57,23 @@
 <template id="tpl_todo_row">
   <li class="todo-row">
     <div class="ilb">
-      <span class="todo-action expand-btn invisible" data-bind="expand" title="Expand/Collapse"><svg class="icon icon-chevron-right expand-icon"><use xlink:href="#icon-chevron-right"></use></svg></span>
+      <span class="todo-action expand-btn invisible" data-bind="expand" title="Expand/Collapse">
+        <svg class="icon icon-chevron-right expand-icon"><use xlink:href="#icon-chevron-right"></use></svg>
+      </span>
     </div>
     <div class="ilb todo-complete">
       <input type="checkbox" data-bind="complete">
     </div>
     <div class="ilb todo-actions">
-      <span class="todo-action c-blue" data-bind="add-child" title="Add a Sub-Todo"><svg class="icon icon-plus"><use xlink:href="#icon-plus"></use></svg></span>
+      <span class="todo-action c-blue" data-bind="add-todo" title="Add a Sub-Todo"><svg class="icon icon-plus"><use xlink:href="#icon-plus"></use></svg></span>
       <span class="todo-action" data-bind="delete" title="Delete this Todo"><svg class="icon icon-bin"><use xlink:href="#icon-bin"></use></svg></span>
     </div>
     <div class="ilb todo-text" data-bind="text">
       <span class="display"></span>
       <span class="input">
         <input type="text">
-        <span title="Apply"><svg class="icon icon-check pointer c-green"><use xlink:href="#icon-check"></use></svg></span>
-        <span title="Cancel"><svg class="icon icon-close pointer c-red"><use xlink:href="#icon-close"></use></svg></span>
+        <span title="Apply" class="apply"><svg class="icon icon-check pointer c-green"><use xlink:href="#icon-check"></use></svg></span>
+        <span title="Cancel" class="cancel"><svg class="icon icon-close pointer c-red"><use xlink:href="#icon-close"></use></svg></span>
       </span>
     </div>
   </li>

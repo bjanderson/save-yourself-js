@@ -2,6 +2,8 @@
 .todo-list {
   list-style-type: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .todo-list .todo-list {
@@ -37,7 +39,16 @@
     @extend .pointer;
   }
 
-  &:not(.editing) {
+  .input {
+    .empty {
+      svg {
+        cursor: default !important;
+        color: $gray !important;
+      }
+    }
+  }
+
+  &:not(.editing) > .todo-text {
     .display {
       @extend .show;
     }
@@ -47,7 +58,7 @@
     }
   }
 
-  &.editing {
+  &.editing > .todo-text {
     .display {
       @extend .hide;
     }

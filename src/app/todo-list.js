@@ -10,4 +10,8 @@ class TodoList {
       this.rows.push(new TodoRow(this.el, todo))
     }
   }
+
+  addTodo(todo) {
+    this.rows.push(new TodoRow(this.el, todo));
+  }
 }
