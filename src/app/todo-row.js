@@ -29,7 +29,7 @@ class TodoRow {
     }
   }
 
-  showExpandBtn() {
+  toggleExpandBtn() {
     let btn = this.el.querySelector('.expand-btn')
     btn.className = btn.className.replace('invisible', '').trim()
     if (this.subList == null) {
@@ -140,7 +140,7 @@ class TodoRow {
     if (children.length > 0) {
       this.subList = new TodoList(this.el, children)
 
-      this.showExpandBtn()
+      this.toggleExpandBtn()
 
       if (this.todo.showChildren) {
         this.expandSubList()
@@ -152,7 +152,16 @@ class TodoRow {
     const el = this.el.querySelector('[data-bind="delete"]')
     el.addEventListener('click', (event) => {
       DataStore.removeTodo(this.todo.id)
-      document.getElementById(`todo_${this.todo.id}`).remove()
+      this.el.remove()
     })
   }
+
+  /* removeSubList() {
+    const children = DataStore.appData.todos.filter(t => t.parentId === this.todo.id)
+    if (children.length === 0) {
+      this.subList.el.remove()
+      this.toggleExpandBtn()
+      this.todo.showChildren = false
+    }
+  } */
 }

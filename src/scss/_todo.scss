@@ -1,7 +1,13 @@
+.todo-header {
+  .todo-action {
+    font-size: 1rem;
+  }
+}
 
 .todo-list {
   list-style-type: none;
   padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
@@ -11,10 +17,15 @@
 }
 
 .todo-row {
-  margin: 20px 0;
+  margin: 1rem 0 0 0;
+
+  .expand-btn > svg {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
 
   .expand-icon {
-    font-size: 10px;
+    font-size: 1rem;
   }
 
   &:not(.expanded) {
@@ -29,8 +40,13 @@
       @extend .show;
       overflow: hidden;
     }
-  }
 
+    & > div > .expand-btn > svg {
+      transform: rotate(90deg);
+      transition: transform 0.3s ease;
+    }
+  }
+  
   .todo-action {
     cursor: pointer;
   }
